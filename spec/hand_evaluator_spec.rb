@@ -2,27 +2,27 @@ require "spec_helper"
 require "hand_evaluator"
 
 describe HandEvaluator do
-  describe "#check_for_pairs" do
+  describe "#get_pairs" do
     it "knows when given a pair of twos" do
       hand = "2S 2D 3S 4S 5S".split(' ')
-      expect(HandEvaluator.new.check_for_pairs(hand)).to eq ['2']
+      expect(HandEvaluator.new.get_pairs(hand)).to eq ['2', '2']
     end
 
     it "knows when given a pair of fives" do
       hand = "2S 5D 3S 4S 5S".split(' ')
-      expect(HandEvaluator.new.check_for_pairs(hand)).to eq ['5']
+      expect(HandEvaluator.new.get_pairs(hand)).to eq ['5', '5']
     end
 
     it "knows when given no pairs" do
       hand = "2S 6D 3S 4S 5S".split(' ')
-      expect(HandEvaluator.new.check_for_pairs(hand)).to eq []
+      expect(HandEvaluator.new.get_pairs(hand)).to eq []
     end
   end
 
   describe "#check_for_two_pair" do
     it "knows when given a two pair" do
       hand = "2S 2D 3S 3S 5S".split(' ')
-      expect(HandEvaluator.new.check_for_pairs(hand)).to eq ['3', '2']
+      expect(HandEvaluator.new.get_pairs(hand)).to eq ['3', '3', '2', '2']
     end
   end
 
@@ -55,7 +55,7 @@ describe HandEvaluator do
       expect_higher "2S 2D 2C 3S 4D", "AS AD KS KD QS"
     end
 
-    xit "breaks ties with three of a kind by using the highest rank" do
+    it "breaks ties with three of a kind by using the highest rank" do
       expect_higher "3S 3D 3C 5S 4D", "2S 2D 2C 6S 7D"
     end
 
@@ -88,7 +88,7 @@ describe HandEvaluator do
       expect_higher "2C 2D 2H 2S 3C", "AS AH AD KS KH"
     end
 
-    xit "breaks ties with four of a kind by using the highest rank" do
+    it "breaks ties with four of a kind by using the highest rank" do
       expect_higher "3S 3D 3C 3H 4D", "2S 2D 2C 2H 5D"
     end
 

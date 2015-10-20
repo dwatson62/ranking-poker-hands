@@ -2,6 +2,8 @@ class HandEvaluator
 
   attr_reader :left, :right, :left_pairs, :right_pairs
 
+  CARDS = 5
+
   FACES = {
     'J' => '11', 'Q' => '12', 'K' => '13', 'A' => '14'
   }
@@ -9,8 +11,8 @@ class HandEvaluator
   def return_stronger_hand(left, right)
     set_hands(left, right)
     set_pairs
-    p left_pairs
-    p right_pairs
+    return hand_with_x_of_a_kind(4) if hand_with_x_of_a_kind(4) != nil
+    return hand_with_x_of_a_kind(3) if hand_with_x_of_a_kind(3) != nil
     return_hand_with_best_pairs
   end
 
@@ -20,8 +22,25 @@ class HandEvaluator
   end
 
   def set_pairs
-    @left_pairs = check_for_pairs(left)
-    @right_pairs = check_for_pairs(right)
+    @left_pairs = get_pairs(left)
+    @right_pairs = get_pairs(right)
+  end
+
+  def hand_with_x_of_a_kind(x)
+    if look_for_x_of_a_kind(x, left_pairs) && look_for_x_of_a_kind(x, right_pairs)
+      # check for kickers or full house
+      return compare_kickers
+    elsif look_for_x_of_a_kind(x, left_pairs)
+      return left
+    elsif look_for_x_of_a_kind(x, right_pairs)
+      return right
+    end
+    nil
+  end
+
+  def look_for_x_of_a_kind(x, hand_pairs)
+    hand_pairs.uniq.each { |element| return true if hand_pairs.count(element) == x }
+    false
   end
 
   def return_hand_with_best_pairs
@@ -39,9 +58,9 @@ class HandEvaluator
     compare_kickers
   end
 
-  def check_for_pairs(hand)
+  def get_pairs(hand)
     pairs = hand.map { |x| x.chr }
-    pairs.select { |x| pairs.count(x) > 1 }.sort.reverse.uniq
+    pairs.select { |x| pairs.count(x) > 1 }.sort.reverse
   end
 
   def check_for_face(hand)
@@ -58,7 +77,7 @@ class HandEvaluator
   end
 
   def compare_kickers
-    for x in 0...left.length
+    for x in 0..CARDS
       return left if left[x].chr > right[x].chr
       return right if left[x].chr < right[x].chr
     end
