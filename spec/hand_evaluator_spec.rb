@@ -52,19 +52,19 @@ describe HandEvaluator do
       expect_higher "3S 3D 3C 5S 4D", "2S 2D 2C 6S 7D"
     end
 
-    xit "scores a straight higher than a three of a kind" do
-      expect_higher "3S 2D 6H 4C 5H", "AS AD AC KS QD"
+    it "scores a straight higher than a three of a kind" do
+      expect_higher "AS AD AC KS QD", "3S 2D 6H 4C 5H"
     end
 
-    xit "breaks ties with straights by using the highest rank" do
+    it "breaks ties with straights by using the highest rank" do
       expect_higher "3S 7D 6H 4C 5H", "2C 3D 4D 5D 6C"
     end
 
-    xit "scores a flush higher than a straight" do
+    it "scores a flush higher than a straight" do
       expect_higher "2H 3H 4H 5H 6H", "TD JD QH KH AS"
     end
 
-    xit "breaks ties with a flush by using the highest rank" do
+    it "breaks ties with a flush by using the highest rank" do
       expect_higher "2D 3D 4D 5D 8D", "2H 3H 4H 5H 7H"
     end
 
