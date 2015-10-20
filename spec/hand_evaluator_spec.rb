@@ -26,7 +26,7 @@ describe HandEvaluator do
       expect_higher "2S 2D 3S 4S 5S", "AS QS JD TS 9S"
     end
 
-    xit "breaks ties with pairs by rank" do
+    it "breaks ties with pairs by rank" do
       expect_higher "3S 3D 4S 5S 6S", "2S 2D 3S 4S 5S"
     end
 
@@ -88,7 +88,7 @@ describe HandEvaluator do
       expect_higher "3S 7S 6S 4S 5S", "2C 3C 4C 5C 6C"
     end
 
-    xit "breaks ties using side cards" do
+    it "breaks ties using side cards" do
       expect_higher "2D 2H 3D 4D 6D", "2C 2S 3S 4S 5S"
     end
   end
