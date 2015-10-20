@@ -5,31 +5,24 @@ describe HandEvaluator do
   describe "#get_pairs" do
     it "knows when given a pair of twos" do
       hand = "2S 2D 3S 4S 5S".split(' ')
-      expect(HandEvaluator.new.get_pairs(hand)).to eq ['2', '2']
+      expect(HandEvaluator.new.get_x_of_a_kind(hand, 2)).to eq ['2', '2']
     end
 
     it "knows when given a pair of fives" do
       hand = "2S 5D 3S 4S 5S".split(' ')
-      expect(HandEvaluator.new.get_pairs(hand)).to eq ['5', '5']
+      expect(HandEvaluator.new.get_x_of_a_kind(hand, 2)).to eq ['5', '5']
     end
 
     it "knows when given no pairs" do
       hand = "2S 6D 3S 4S 5S".split(' ')
-      expect(HandEvaluator.new.get_pairs(hand)).to eq []
+      expect(HandEvaluator.new.get_x_of_a_kind(hand, 2)).to eq []
     end
   end
 
   describe "#check_for_two_pair" do
     it "knows when given a two pair" do
       hand = "2S 2D 3S 3S 5S".split(' ')
-      expect(HandEvaluator.new.get_pairs(hand)).to eq ['3', '3', '2', '2']
-    end
-  end
-
-  describe "Face cards" do
-    it "Knows the value of all faces" do
-      hand = "JS QD KS AS 5S".split(' ')
-      expect(HandEvaluator.new.check_for_face(hand)).to eq ["11S", "12D", "13S", "14S", "5S"]
+      expect(HandEvaluator.new.get_x_of_a_kind(hand, 2)).to eq ['3', '3', '2', '2']
     end
   end
 
