@@ -2,24 +2,36 @@ require "spec_helper"
 require "hand_evaluator"
 
 describe HandEvaluator do
-
-  describe "#check_for_pair" do
+  describe "#check_for_pairs" do
     it "knows when given a pair of twos" do
       hand = "2S 2D 3S 4S 5S".split(' ')
-      expect(HandEvaluator.new.check_for_pair(hand)).to eq '2'
+      expect(HandEvaluator.new.check_for_pairs(hand)).to eq ['2']
     end
 
     it "knows when given a pair of fives" do
       hand = "2S 5D 3S 4S 5S".split(' ')
-      expect(HandEvaluator.new.check_for_pair(hand)).to eq '5'
+      expect(HandEvaluator.new.check_for_pairs(hand)).to eq ['5']
     end
 
     it "knows when given no pairs" do
       hand = "2S 6D 3S 4S 5S".split(' ')
-      expect(HandEvaluator.new.check_for_pair(hand)).to eq '0'
+      expect(HandEvaluator.new.check_for_pairs(hand)).to eq []
     end
   end
 
+  describe "#check_for_two_pair" do
+    it "knows when given a two pair" do
+      hand = "2S 2D 3S 3S 5S".split(' ')
+      expect(HandEvaluator.new.check_for_pairs(hand)).to eq ['3', '2']
+    end
+  end
+
+  describe "Face cards" do
+    it "Knows the value of all faces" do
+      hand = "JS QD KS AS 5S".split(' ')
+      expect(HandEvaluator.new.check_for_face(hand)).to eq ["11S", "12D", "13S", "14S", "5S"]
+    end
+  end
 
   describe "#return_stronger_hand" do
     it "scores pairs higher than flops" do
@@ -30,16 +42,16 @@ describe HandEvaluator do
       expect_higher "3S 3D 4S 5S 6S", "2S 2D 3S 4S 5S"
     end
 
-    xit "scores two pair higher than pairs" do
+    it "scores two pair higher than pairs" do
       expect_higher "2S 2D 3S 3D 4H", "AS AD 5S 6D 7H"
     end
 
-    xit "breaks ties with two pair by the highest pair" do
+    it "breaks ties with two pair by the highest pair" do
       expect_higher "2S 2D 5S 5D 4H", "4D 4S 3H 3C 6S"
       expect_higher "4D 4S 3D 3S KH", "4C 4H 2D 2S KC"
     end
 
-    xit "scores three of a kind higher than two pair" do
+    it "scores three of a kind higher than two pair" do
       expect_higher "2S 2D 2C 3S 4D", "AS AD KS KD QS"
     end
 
