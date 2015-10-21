@@ -1,21 +1,15 @@
 class HandEvaluator
 
-  attr_reader :left, :right
+  attr_reader :left, :right, :ranks
 
   CARDS = 5
   FACES = { 'J' => '11', 'Q' => '12', 'K' => '13', 'A' => '14' }
 
   def return_stronger_hand(left, right)
-    rules = [StraightFlush, 'FourOfAKind', FullHouse, Flush, Straight,
-            'ThreeOfAKind', 'TwoPair', 'Pair']
-    set_hands(left, right)
-    rules.each do |rank|
-      if rank == 'FourOfAKind'
-        return check_x_of_a_kind(4) if check_x_of_a_kind(4)
-      elsif rank == 'ThreeOfAKind'
-        return check_x_of_a_kind(3) if check_x_of_a_kind(3)
-      elsif rank == 'TwoPair' || rank == 'Pair'
-        return check_x_of_a_kind(2) if check_x_of_a_kind(2)
+    setup(left, right)
+    ranks.each do |rank|
+      if rank.class == String
+        return check_x_of_a_kind(rank.chr.to_i) if check_x_of_a_kind(rank.chr.to_i)
       else
         return check_ranking(rank) if check_ranking(rank)
       end
@@ -23,9 +17,10 @@ class HandEvaluator
     compare_kickers
   end
 
-  def set_hands(left, right)
-    @left = left
-    @right = right
+  def setup(left, right)
+    @left, @right = left, right
+    @ranks = [StraightFlush, '4OfAKind', FullHouse, Flush,
+              Straight, '3OfAKind', '2Pair', '2OfAKind']
   end
 
   def check_ranking(rank)
@@ -49,9 +44,9 @@ class HandEvaluator
   end
 
   def hand_with_stronger_x(left_x, right_x)
-    for x in 0...left_x.length
-      return left if left_x[x] > right_x[x]
-      return right if left_x[x] < right_x[x]
+    for i in 0...left_x.length
+      return left if left_x[i] > right_x[i]
+      return right if left_x[i] < right_x[i]
     end
     compare_kickers
   end
@@ -66,8 +61,8 @@ class HandEvaluator
   end
 
   def adjust_values(hand)
-    check_hand = hand.map { |x| x[0...-1] }
-    check_hand.map { |x| FACES[x] || x }.sort
+    card_numbers = hand.map { |card| card[0...-1] }
+    card_numbers.map { |number| FACES[number] || number }.sort
   end
 
 end
@@ -75,14 +70,14 @@ end
 class Flush < HandEvaluator
   def self.check(hand)
     suit = hand[0][1]
-    hand.select { |x| x[1] == suit }.length == CARDS
+    hand.select { |card| card[1] == suit }.length == CARDS
   end
 end
 
 class Straight < HandEvaluator
   def self.check(hand)
-    check = hand.map { |x| x[0...-1] }
-    check.map { |x| FACES[x] || x }.sort.each_cons(2).all? { |x, y| y == x.next }
+    numbers = hand.map { |card| card[0...-1] }
+    numbers.map { |x| FACES[x] || x }.sort.each_cons(2).all? { |x, y| y == x.next }
   end
 end
 
