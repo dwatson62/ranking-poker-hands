@@ -53,7 +53,7 @@ describe HandEvaluator do
     end
 
     it "scores a straight higher than a three of a kind" do
-      expect_higher "AS AD AC KS QD", "3S 2D 6H 4C 5H"
+      expect_higher "3S 2D 6H 4C 5H", "AS AD AC KS QD"
     end
 
     it "breaks ties with straights by using the highest rank" do
@@ -68,16 +68,16 @@ describe HandEvaluator do
       expect_higher "2D 3D 4D 5D 8D", "2H 3H 4H 5H 7H"
     end
 
-    xit "scores a full house higher than a flush" do
+    it "scores a full house higher than a flush" do
       expect_higher "2C 2D 2H 3C 3D", "9D JD QD KD AD"
     end
 
-    xit "breaks ties in a full house using the three of a kind, then pair" do
+    it "breaks ties in a full house using the three of a kind, then pair" do
       expect_higher "2D 2C 4D 4C 4H", "2H 2S 3D 3C 3H"
       expect_higher "2D 2C 2D 4C 4H", "2H 2S 2D 3C 3H"
     end
 
-    xit "scores a four of a kind higher than a full house" do
+    it "scores a four of a kind higher than a full house" do
       expect_higher "2C 2D 2H 2S 3C", "AS AH AD KS KH"
     end
 
@@ -85,11 +85,11 @@ describe HandEvaluator do
       expect_higher "3S 3D 3C 3H 4D", "2S 2D 2C 2H 5D"
     end
 
-    xit "scores a straight flush higher than a four of a kind" do
+    it "scores a straight flush higher than a four of a kind" do
       expect_higher "2S 3S 4S 5S 6S", "AS AH AD AC KS"
     end
 
-    xit "breaks ties with a straight flush by looking at rank" do
+    it "breaks ties with a straight flush by looking at rank" do
       expect_higher "3S 7S 6S 4S 5S", "2C 3C 4C 5C 6C"
     end
 
