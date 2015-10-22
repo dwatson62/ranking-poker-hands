@@ -1,5 +1,6 @@
 require "rspec"
 require 'byebug'
+require 'require'
 
 PROJECT_ROOT = File.expand_path('../..', __FILE__)
 

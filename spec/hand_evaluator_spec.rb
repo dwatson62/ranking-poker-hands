@@ -1,5 +1,4 @@
 require "spec_helper"
-require "hand_evaluator"
 
 describe HandEvaluator do
   describe "#get_pairs" do
@@ -58,6 +57,10 @@ describe HandEvaluator do
 
     it "breaks ties with straights by using the highest rank" do
       expect_higher "3S 7D 6H 4C 5H", "2C 3D 4D 5D 6C"
+    end
+
+    it "Aces can be counted as low in a straight" do
+      expect_higher "AD 2C 3D 4D 5D", "2S 8D 9H 4C 5H"
     end
 
     it "scores a flush higher than a straight" do
